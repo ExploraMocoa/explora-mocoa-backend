@@ -1,10 +1,11 @@
 package com.example.exploramocoa.repository;
 
-import com.example.exploramocoa.entity.Evento;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.exploramocoa.entity.Evento;
 
 public interface EventoRepository extends JpaRepository<Evento, Long> {
     List<Evento> findByCategoria(String categoria);
