@@ -2,7 +2,6 @@ package com.example.exploramocoa.service;
 
 import com.example.exploramocoa.entity.ItemCarrito;
 import com.example.exploramocoa.repository.ItemCarritoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class ItemCarritoService {
 
-    @Autowired
-    private ItemCarritoRepository itemCarritoRepository;
+    private final ItemCarritoRepository itemCarritoRepository;
+
+    public ItemCarritoService(ItemCarritoRepository itemCarritoRepository) {
+        this.itemCarritoRepository = itemCarritoRepository;
+    }
 
     public List<ItemCarrito> listarTodos() {
         return itemCarritoRepository.findAll();
@@ -19,9 +21,11 @@ public class ItemCarritoService {
 
     public ItemCarrito buscarPorId(Long id) {
         return itemCarritoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "Ítem de carrito no encontrado con id " + id
-                ));
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Ítem de carrito no encontrado con id " + id
+                        )
+                );
     }
 
     public ItemCarrito crear(ItemCarrito item) {
