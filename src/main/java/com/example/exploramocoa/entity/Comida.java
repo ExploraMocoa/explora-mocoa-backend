@@ -3,7 +3,12 @@ package com.example.exploramocoa.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
- 
+
+ import com.fasterxml.jackson.annotation.JsonIgnore; // Evita ciclos infinitos al devolver datos JSON.
+import lombok.EqualsAndHashCode; // Permite excluir la lista de comparaciones automáticas de Lombok.
+import lombok.ToString; // Permite excluir la lista de conversiones automáticas a texto.
+import java.util.ArrayList; // Permite iniciar la lista vacía.
+import java.util.List; // Representa una colección de ítems del carrito.
 @Entity
 @Table(name = "comidas")
 @Data
@@ -25,4 +30,10 @@ public class Comida {
  
     @NotBlank(message = "El tipo es obligatorio")
     private String tipo;
+
+ @JsonIgnore // Evita que Comida devuelva sus ítems y se repita el JSON.
+@ToString.Exclude // Evita ciclos al mostrar el objeto como texto.
+@EqualsAndHashCode.Exclude // Evita ciclos al comparar objetos.
+@OneToMany(mappedBy = "comida") // Una comida puede aparecer en muchos ítems de carrito.
+private List<ItemCarrito> itemsCarrito = new ArrayList<>(); // Lista inicialmente vacía de ítems asociados.
 }

@@ -35,7 +35,7 @@ public class ItemCarritoService {
     public ItemCarrito actualizar(Long id, ItemCarrito datos) {
         ItemCarrito existente = buscarPorId(id);
 
-        existente.setNombreProducto(datos.getNombreProducto());
+        existente.setComida(datos.getComida()); // Actualiza la comida asociada al ítem del carrito.
         existente.setCantidad(datos.getCantidad());
         existente.setPrecioUnitario(datos.getPrecioUnitario());
 

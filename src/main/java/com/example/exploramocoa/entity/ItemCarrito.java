@@ -13,8 +13,6 @@ public class ItemCarrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre del producto es obligatorio")
-    private String nombreProducto;
 
     @NotNull(message = "La cantidad es obligatoria")
     @Min(value = 1, message = "La cantidad debe ser al menos 1")
@@ -23,4 +21,14 @@ public class ItemCarrito {
     @NotNull(message = "El precio unitario es obligatorio")
     @Positive(message = "El precio unitario debe ser mayor a 0")
     private Double precioUnitario;
+
+    @ManyToOne(optional = false)
+@JoinColumn(name = "usuario_id", nullable = false)
+private Usuario usuario;
+
+@ManyToOne(optional = false) // Muchos ítems del carrito pueden corresponder a una misma comida.
+@JoinColumn(name = "comida_id", nullable = false) // Crea la columna comida_id y su clave foránea hacia comidas.id.
+private Comida comida; // Guarda la comida real que el usuario agregó al carrito.
+
+
 }

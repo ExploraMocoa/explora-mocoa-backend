@@ -2,7 +2,6 @@ package com.example.exploramocoa.service;
 
 import com.example.exploramocoa.entity.Evento;
 import com.example.exploramocoa.repository.EventoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,8 +10,11 @@ import java.util.List;
 @Service
 public class EventoService {
 
-    @Autowired
-    private EventoRepository eventoRepository;
+    private final EventoRepository eventoRepository;
+
+    EventoService(EventoRepository eventoRepository) {
+        this.eventoRepository = eventoRepository;
+    }
 
     public List<Evento> listarTodos() {
         return eventoRepository.findAll();
@@ -28,7 +30,7 @@ public class EventoService {
     }
 
     public List<Evento> buscarPorLugar(String lugar) {
-        return eventoRepository.findByLugar(lugar);
+    return eventoRepository.findByLugarTuristico_Nombre(lugar); // Busca por el nombre del lugar turístico asociado.
     }
 
     public List<Evento> listarProximos() {
@@ -44,7 +46,7 @@ public class EventoService {
         existente.setNombre(datos.getNombre());
         existente.setDescripcion(datos.getDescripcion());
         existente.setFecha(datos.getFecha());
-        existente.setLugar(datos.getLugar());
+       existente.setLugarTuristico(datos.getLugarTuristico()); // Actualiza el lugar turístico relacionado con el evento.
         existente.setCategoria(datos.getCategoria());
         return eventoRepository.save(existente);
     }

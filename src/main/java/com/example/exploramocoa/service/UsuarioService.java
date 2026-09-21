@@ -1,7 +1,6 @@
 package com.example.exploramocoa.service;
 import com.example.exploramocoa.entity.Usuario;
 import com.example.exploramocoa.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +8,11 @@ import java.util.List;
 @Service
 public class UsuarioService {
     
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
     
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();

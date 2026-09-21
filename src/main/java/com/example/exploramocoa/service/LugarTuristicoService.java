@@ -2,7 +2,6 @@ package com.example.exploramocoa.service;
  
 import com.example.exploramocoa.entity.LugarTuristico;
 import com.example.exploramocoa.repository.LugarTuristicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class LugarTuristicoService {
  
-    @Autowired
-    private LugarTuristicoRepository lugarTuristicoRepository;
+    private final LugarTuristicoRepository lugarTuristicoRepository;
+
+    LugarTuristicoService(LugarTuristicoRepository lugarTuristicoRepository) {
+        this.lugarTuristicoRepository = lugarTuristicoRepository;
+    }
  
     public List<LugarTuristico> listarTodos() {
         return lugarTuristicoRepository.findAll();

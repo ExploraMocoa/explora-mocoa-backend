@@ -3,7 +3,6 @@ package com.example.exploramocoa.controller;
 import com.example.exploramocoa.entity.Evento;
 import com.example.exploramocoa.service.EventoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/eventos")
 public class EventoController {
 
-    @Autowired
-    private EventoService eventoService;
+    private final EventoService eventoService;
+
+    EventoController(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Evento>> listar() {

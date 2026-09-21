@@ -1,7 +1,6 @@
 package com.example.exploramocoa.controller;
 import com.example.exploramocoa.entity.Usuario;
 import com.example.exploramocoa.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +9,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+
+    UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
     
     @GetMapping
     public ResponseEntity<List<Usuario>> listar() {

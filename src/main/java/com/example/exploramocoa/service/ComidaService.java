@@ -2,7 +2,6 @@ package com.example.exploramocoa.service;
  
 import com.example.exploramocoa.entity.Comida;
 import com.example.exploramocoa.repository.ComidaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class ComidaService {
  
-    @Autowired
-    private ComidaRepository comidaRepository;
+    private final ComidaRepository comidaRepository;
+
+    ComidaService(ComidaRepository comidaRepository) {
+        this.comidaRepository = comidaRepository;
+    }
  
     public List<Comida> listarTodas() {
         return comidaRepository.findAll();

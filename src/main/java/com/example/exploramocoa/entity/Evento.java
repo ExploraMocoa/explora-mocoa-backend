@@ -24,9 +24,15 @@ public class Evento {
     @NotNull(message = "La fecha es obligatoria")
     private LocalDateTime fecha;
 
-    @NotBlank(message = "El lugar es obligatorio")
-    private String lugar;
+ @ManyToOne(optional = false) // Muchos eventos pueden pertenecer a un solo lugar turístico.
+@JoinColumn(name = "lugar_turistico_id", nullable = false) // Crea la columna y clave foránea hacia lugares_turisticos.id.
+private LugarTuristico lugarTuristico; // Guarda el objeto LugarTuristico asociado al evento.
 
     @NotBlank(message = "La categoría es obligatoria")
     private String categoria;
+
+@ManyToOne(optional = false) // Muchos eventos pueden haber sido creados por un usuario.
+@JoinColumn(name = "creador_id", nullable = false) // Crea creador_id como clave foránea hacia usuarios.id.
+private Usuario creador; // Guarda el usuario que publicó este evento.
+
 }

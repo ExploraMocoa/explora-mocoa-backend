@@ -2,7 +2,6 @@ package com.example.exploramocoa.controller;
  
 import com.example.exploramocoa.entity.LugarTuristico;
 import com.example.exploramocoa.service.LugarTuristicoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
  
 @RestController
-@RequestMapping("/api/lugares")
+@RequestMapping("/api/lugares-turisticos") // Ruta base para trabajar con lugares turísticos.
 public class LugarTuristicoController {
  
-    @Autowired
-    private LugarTuristicoService lugarTuristicoService;
+    private final LugarTuristicoService lugarTuristicoService;
+
+    LugarTuristicoController(LugarTuristicoService lugarTuristicoService) {
+        this.lugarTuristicoService = lugarTuristicoService;
+    }
  
     @GetMapping
     public ResponseEntity<List<LugarTuristico>> listar() {
