@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -25,15 +27,18 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
     
-    @PostMapping
-    public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.crear(usuario));
-    }
+@PostMapping
+public ResponseEntity<Usuario> crear(@Valid @RequestBody Usuario usuario) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.crear(usuario));
+}
     
-    @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.actualizar(id, usuario));
-    }
+  @PutMapping("/{id}")
+public ResponseEntity<Usuario> actualizar(
+        @PathVariable Long id,
+        @Valid @RequestBody Usuario usuario) {
+    return ResponseEntity.ok(usuarioService.actualizar(id, usuario));
+}
+
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {

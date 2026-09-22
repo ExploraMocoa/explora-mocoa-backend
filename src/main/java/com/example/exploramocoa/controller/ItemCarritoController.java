@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/carrito")
@@ -29,21 +31,21 @@ public class ItemCarritoController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemCarrito> crear(@RequestBody ItemCarrito item) {
+     public ResponseEntity<ItemCarrito> crear(@Valid @RequestBody ItemCarrito item) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(itemCarritoService.crear(item));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ItemCarrito> actualizar(
-            @PathVariable Long id,
-            @RequestBody ItemCarrito item
-    ) {
-        return ResponseEntity.ok(
-                itemCarritoService.actualizar(id, item)
-        );
-    }
+ @PutMapping("/{id}")
+public ResponseEntity<ItemCarrito> actualizar(
+        @PathVariable Long id,
+        @Valid @RequestBody ItemCarrito item
+) {
+    return ResponseEntity.ok(
+            itemCarritoService.actualizar(id, item)
+    );
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {

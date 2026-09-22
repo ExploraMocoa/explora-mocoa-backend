@@ -19,20 +19,22 @@ public class Evento {
     private String nombre;
 
     @Size(max = 500, message = "La descripción no puede superar 500 caracteres")
+    @Column(length = 500)
     private String descripcion;
 
     @NotNull(message = "La fecha es obligatoria")
     private LocalDateTime fecha;
 
- @ManyToOne(optional = false) // Muchos eventos pueden pertenecer a un solo lugar turístico.
-@JoinColumn(name = "lugar_turistico_id", nullable = false) // Crea la columna y clave foránea hacia lugares_turisticos.id.
-private LugarTuristico lugarTuristico; // Guarda el objeto LugarTuristico asociado al evento.
+    @NotNull(message = "El lugar turístico es obligatorio")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "lugar_turistico_id", nullable = false)
+    private LugarTuristico lugarTuristico;
 
     @NotBlank(message = "La categoría es obligatoria")
     private String categoria;
 
-@ManyToOne(optional = false) // Muchos eventos pueden haber sido creados por un usuario.
-@JoinColumn(name = "creador_id", nullable = false) // Crea creador_id como clave foránea hacia usuarios.id.
-private Usuario creador; // Guarda el usuario que publicó este evento.
-
+    @NotNull(message = "El creador es obligatorio")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creador_id", nullable = false)
+    private Usuario creador;
 }

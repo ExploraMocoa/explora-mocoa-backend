@@ -22,13 +22,13 @@ public class ItemCarrito {
     @Positive(message = "El precio unitario debe ser mayor a 0")
     private Double precioUnitario;
 
+     @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     @ManyToOne(optional = false)
-@JoinColumn(name = "usuario_id", nullable = false)
-private Usuario usuario;
-
-@ManyToOne(optional = false) // Muchos ítems del carrito pueden corresponder a una misma comida.
-@JoinColumn(name = "comida_id", nullable = false) // Crea la columna comida_id y su clave foránea hacia comidas.id.
-private Comida comida; // Guarda la comida real que el usuario agregó al carrito.
-
+    @JoinColumn(name = "comida_id", nullable = false)
+    private Comida comida;
+    
 
 }
