@@ -5,6 +5,7 @@ import com.expora_mocoa.services.LugarTuristicoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -37,16 +38,19 @@ public class LugarTuristicoController {
         return service.findById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @PostMapping
     public ResponseEntity<LugarTuristico> crear(@Valid @RequestBody LugarTuristico lugar) {
         return new ResponseEntity<>(service.create(lugar), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @PutMapping("/{id}")
     public LugarTuristico actualizar(@PathVariable Long id, @RequestBody LugarTuristico lugar) {
         return service.update(id, lugar);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.delete(id);

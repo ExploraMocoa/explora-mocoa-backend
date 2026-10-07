@@ -5,6 +5,7 @@ import com.expora_mocoa.services.ServicioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -32,16 +33,19 @@ public class ServicioController {
         return service.findById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @PostMapping
     public ResponseEntity<Servicio> crear(@Valid @RequestBody Servicio servicio) {
         return new ResponseEntity<>(service.create(servicio), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @PutMapping("/{id}")
     public Servicio actualizar(@PathVariable Long id, @RequestBody Servicio servicio) {
         return service.update(id, servicio);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PROVEEDOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.delete(id);

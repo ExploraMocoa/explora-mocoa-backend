@@ -2,6 +2,7 @@ package com.expora_mocoa.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,9 @@ public class Usuario {
 
     // Sin @NotBlank para permitir updates sin cambiar la contraseña
     // (el service exige contraseña al crear). Solo valida longitud si viene.
+    // WRITE_ONLY: la contraseña se puede ENVIAR (crear/registrar), pero NUNCA
+    // aparece en las respuestas JSON.
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Size(min = 4, max = 255, message = "La contraseña debe tener entre 4 y 255 caracteres")
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
