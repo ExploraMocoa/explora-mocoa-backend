@@ -5,6 +5,7 @@ import com.expora_mocoa.services.OrdenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/ordenes")
 @CrossOrigin(origins = "*")
+// Sobre la CLASE: todos los métodos son solo para TURISTA y ADMIN (nada público).
+@PreAuthorize("hasAnyRole('TURISTA','ADMIN')")
 public class OrdenController {
 
     private final OrdenService service;
@@ -38,6 +41,8 @@ public class OrdenController {
         return new ResponseEntity<>(service.create(orden), HttpStatus.CREATED);
     }
 
+    // Este método tiene su propia regla, que REEMPLAZA a la de la clase: solo ADMIN.
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/estado")
     public Orden cambiarEstado(@PathVariable Long id, @RequestBody Map<String, String> body) {
         return service.cambiarEstado(id, body.get("estado"));

@@ -5,12 +5,15 @@ import com.expora_mocoa.services.RolService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/roles")
 @CrossOrigin(origins = "*")
+// Puesta sobre la CLASE, aplica a TODOS los métodos: solo un ADMIN puede usar este controller.
+@PreAuthorize("hasRole('ADMIN')")
 public class RolController {
 
     private final RolService service;

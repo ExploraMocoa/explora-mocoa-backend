@@ -5,6 +5,7 @@ import com.expora_mocoa.entities.Usuario;
 import com.expora_mocoa.repositories.RolRepository;
 import com.expora_mocoa.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -15,10 +16,13 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final RolRepository rolRepository;
+    private final PasswordEncoder passwordEncoder; // BCrypt, definido en SecurityConfig
 
-    public UsuarioService(UsuarioRepository repository, RolRepository rolRepository) {
+    public UsuarioService(UsuarioRepository repository, RolRepository rolRepository,
+                          PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.rolRepository = rolRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -42,8 +46,8 @@ public class UsuarioService {
         validar(usuario, null);
         // Resolver rol (puede venir solo con id)
         usuario.setRol(resolverRol(usuario.getRol() != null ? usuario.getRol().getId() : null));
-        // TODO: encriptar con BCrypt cuando agregues Spring Security:
-        // usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        // Encriptar la contraseña ANTES de guardarla: "1234" -> "$2a$10$..."
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         return repository.save(usuario);
     }
 
@@ -53,7 +57,8 @@ public class UsuarioService {
         usuario.setNombre(datos.getNombre());
         usuario.setCorreo(datos.getCorreo());
         if (datos.getContrasena() != null && !datos.getContrasena().isBlank()) {
-            usuario.setContrasena(datos.getContrasena());
+            // También se encripta al actualizar
+            usuario.setContrasena(passwordEncoder.encode(datos.getContrasena()));
         }
         // Permite cambiar a rol null (SET NULL) o a otro rol
         if (datos.getRol() != null) {

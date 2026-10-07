@@ -5,6 +5,7 @@ import com.expora_mocoa.services.ResenaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -37,16 +38,19 @@ public class ResenaController {
         return service.findById(id);
     }
 
+    @PreAuthorize("hasAnyRole('TURISTA','ADMIN')")
     @PostMapping
     public ResponseEntity<Resena> crear(@Valid @RequestBody Resena resena) {
         return new ResponseEntity<>(service.create(resena), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('TURISTA','ADMIN')")
     @PutMapping("/{id}")
     public Resena actualizar(@PathVariable Long id, @RequestBody Resena resena) {
         return service.update(id, resena);
     }
 
+    @PreAuthorize("hasAnyRole('TURISTA','ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.delete(id);

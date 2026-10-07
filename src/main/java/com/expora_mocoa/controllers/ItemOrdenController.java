@@ -5,12 +5,15 @@ import com.expora_mocoa.services.ItemOrdenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/items-orden")
 @CrossOrigin(origins = "*")
+// Sobre la CLASE: todos los métodos son solo para TURISTA y ADMIN (nada público).
+@PreAuthorize("hasAnyRole('TURISTA','ADMIN')")
 public class ItemOrdenController {
 
     private final ItemOrdenService service;
